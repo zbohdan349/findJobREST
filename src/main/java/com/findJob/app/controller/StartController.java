@@ -8,7 +8,6 @@ public class StartController {
 
     @GetMapping("/")
     public  String start(){
-        int i =0;
         return "index";
     }
 }
