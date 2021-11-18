@@ -12,12 +12,12 @@ public class User {
 
     private String secondName;
 
+    private String description;
+
     @OneToOne
     @JoinColumn(name = "id")
     private Account account;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Skill>skills;
 
     public User() {
     }
@@ -54,11 +54,4 @@ public class User {
         this.account = account;
     }
 
-    public Set<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(Set<Skill> skills) {
-        this.skills = skills;
-    }
 }

@@ -2,6 +2,7 @@ package com.findJob.app.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -20,6 +21,9 @@ public class Account {
     private String linkedIn;
 
     private LocalDateTime localDateTime;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Category>categories;
 
     @OneToOne(mappedBy = "account")
     private Company company;
