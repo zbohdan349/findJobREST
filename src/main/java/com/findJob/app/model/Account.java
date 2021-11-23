@@ -10,8 +10,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private Role role;
-
     private String email;
 
     private String password;
@@ -30,6 +28,9 @@ public class Account {
 
     @OneToOne(mappedBy = "account")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Account() {
     }
