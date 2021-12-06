@@ -34,7 +34,7 @@
             <p/>
             <div th:each="category : ${vacancy.categories}"  th:utext ="${category.name}" class="d-inline-block p-2 mt-2 bg-dark text-white">An item</div>
             <p/>
-            <div style="word-break:break-all;" th:utext ="${vacancy.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            <div style="word-break:break-all;" th:utext ="${vacancy.smallDescription}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
 
             <button type="button" class="mb-2 mt-2 btn btn-outline-dark">Детальніше</button>
         </div>
