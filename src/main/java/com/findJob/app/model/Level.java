@@ -1,7 +1,8 @@
 package com.findJob.app.model;
 
 public enum Level {
-    LOW,
+    JUNIOR,
     MIDDLE,
-    HIGH
+    SENIOR
+
 }

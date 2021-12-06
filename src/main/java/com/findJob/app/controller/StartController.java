@@ -1,7 +1,9 @@
 package com.findJob.app.controller;
 
 import com.findJob.app.model.Company;
+import com.findJob.app.model.Level;
 import com.findJob.app.model.Vacancy;
+import com.findJob.app.service.CategoryServ;
 import com.findJob.app.service.VacancyServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class StartController {
     @Autowired
     private VacancyServ vacancyServ;
 
+    @Autowired
+    private CategoryServ categoryServ;
+
     @GetMapping("/")
     public  String start(Model model){
 
@@ -27,8 +32,9 @@ public class StartController {
     }
     @GetMapping("/find")
     public  String find(Model model){
-
+        model.addAttribute("categories",categoryServ.getAllCategories());
         model.addAttribute("vacancies",vacancyServ.getAll());
+        model.addAttribute("levels", Level.values());
         return "filterP";
     }
 }

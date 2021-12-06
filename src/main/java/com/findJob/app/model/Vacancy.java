@@ -10,11 +10,17 @@ public class Vacancy {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String description;
+    private String smallDescription;
+
+    @Lob
+    private String bigDescription;
 
     private String name;
 
     private Boolean visible;
+
+    @Enumerated(EnumType.STRING)
+    private Level level;
 
     private int Salary;
 
@@ -78,12 +84,12 @@ public class Vacancy {
         this.time = time;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSmallDescription() {
+        return smallDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSmallDescription(String description) {
+        this.smallDescription = description;
     }
 
     public Set<Category> getCategories() {
@@ -92,5 +98,21 @@ public class Vacancy {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public String getBigDescription() {
+        return bigDescription;
+    }
+
+    public void setBigDescription(String bigDescription) {
+        this.bigDescription = bigDescription;
     }
 }
