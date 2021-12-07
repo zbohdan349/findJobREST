@@ -36,7 +36,9 @@
             <p/>
             <div style="word-break:break-all;" th:utext ="${vacancy.smallDescription}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
 
-            <button type="button" class="mb-2 mt-2 btn btn-outline-dark">Детальніше</button>
+            <form  th:action="@{/vacancy/{id}(id = ${vacancy.id})}"}  method="get">
+            <button  type="submit" class="mb-2 mt-2 btn btn-outline-dark">Детальніше</button>
+            </form>
         </div>
     </div>
 </div>

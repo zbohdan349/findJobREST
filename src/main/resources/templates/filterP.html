@@ -29,12 +29,15 @@
                 <p/>
                 <div style="word-break:break-all;" th:utext ="${vacancy.smallDescription}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
 
-                <button type="button" class="mb-2 mt-2 btn btn-outline-dark">Детальніше</button>
+                <form  th:action="@{/vacancy/{id}(id = ${vacancy.id})}"}  method="get">
+                    <button  type="submit" class="mb-2 mt-2 btn btn-outline-dark">Детальніше</button>
+                </form>
             </div>
         </div>
         <div class="col-3 mx-2 d-none d-lg-block">
             <form class="sticky-top pb-2 rounded-3 bg-light shadow">
                 <div class="container mb-2">
+                    <br>
                     <p>Категорія</p>
                     <hr style=" height: 2px;">
                     <select class="form-select " aria-label="Default select example">

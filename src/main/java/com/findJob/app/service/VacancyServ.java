@@ -16,7 +16,18 @@ public class VacancyServ {
     public List<Vacancy> getRandom(){
         return vacancyRepo.findAll().subList(0,3);
     }
+
     public List<Vacancy> getAll(){
         return vacancyRepo.findAll();
     }
+
+    public Vacancy getCategoryById(Integer id){
+        return vacancyRepo.getById(id);
+    }
+
+    public void save(Vacancy vacancy){
+        vacancyRepo.save(vacancy);
+    }
+
+
 }

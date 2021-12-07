@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<title>Hello, world!</title>
+</head>
+<body class="bg-light">
+<div th:insert="header :: header"> </div>
+<div class="container-sm">
+    <div class="col pt-2">
+        <div class="feature  bg-light shadow px-4 mb-4 rounded-3 shadow" >
+            <div class="feature-icon bg-dark bg-gradient">
+                <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+            </div>
+            <h1 th:utext ="${vacancy.name}">Приклад вакансії</h1>
+            <h4 th:utext ="${vacancy.company.name}"style="color:grey;"></h4>
+            <h3 th:utext ="${vacancy.salary} + ' грн'" class="text-danger mb-2">10000 грн</h3>
+            <p/>
+            <div th:each="category : ${vacancy.categories}"  th:utext ="${category.name}" class="d-inline-block p-2 mt-2 bg-dark display-6 text-white">An item</div>
+            <p/>
+            <div class="h5" style="word-break:break-all;" th:utext ="${vacancy.bigDescription}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            <button type="button" class="my-3 m btn btn-danger btn-lg">Повідомити роботодавця</button>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
