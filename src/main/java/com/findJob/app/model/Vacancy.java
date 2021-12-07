@@ -7,7 +7,7 @@ import java.util.Set;
 @Entity
 public class Vacancy {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String smallDescription;
@@ -62,10 +62,6 @@ public class Vacancy {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getSalary() {
