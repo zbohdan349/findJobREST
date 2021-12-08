@@ -2,6 +2,7 @@ package com.findJob.app.model;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -54,5 +55,18 @@ public class Company {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        return id == company.id && Objects.equals(name, company.name) && Objects.equals(description, company.description) && Objects.equals(account, company.account) && Objects.equals(vacancies, company.vacancies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, account, vacancies);
     }
 }

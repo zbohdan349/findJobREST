@@ -1,6 +1,7 @@
 package com.findJob.app.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -51,5 +52,18 @@ public class Category {
 
     public void setVacancies(Set<Vacancy> vacancies) {
         this.vacancies = vacancies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id && name.equals(category.name) && accounts.equals(category.accounts) && vacancies.equals(category.vacancies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, accounts, vacancies);
     }
 }

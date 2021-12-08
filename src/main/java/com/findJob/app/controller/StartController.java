@@ -1,23 +1,20 @@
 package com.findJob.app.controller;
 
+import com.findJob.app.model.Category;
 import com.findJob.app.model.Company;
 import com.findJob.app.model.Level;
 import com.findJob.app.model.Vacancy;
+import com.findJob.app.model.dto.FilterReq;
 import com.findJob.app.model.dto.VacDto;
 import com.findJob.app.service.CategoryServ;
 import com.findJob.app.service.VacancyServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class StartController {
@@ -36,9 +33,26 @@ public class StartController {
     }
     @GetMapping("/find")
     public  String find(Model model){
+        model.addAttribute("filterReq", new FilterReq());
         model.addAttribute("categories",categoryServ.getAllCategories());
         model.addAttribute("vacancies",vacancyServ.getAll());
         model.addAttribute("levels", Level.values());
+        return "filterP";
+    }
+    @GetMapping("/find1")
+    public  String findWithParam(Model model,
+                                 @DefaultValue("0")@RequestParam(required = false) Integer salary,
+                                 @RequestParam(required = false) List<Level> levels,
+                                 @RequestParam(required = false) Category category
+                                 ){
+        model.addAttribute("filterReq", new FilterReq());
+
+        model.addAttribute("categories",categoryServ.getAllCategories());
+
+        model.addAttribute("vacancies",vacancyServ.getFilter(salary,levels,category));
+
+        model.addAttribute("levels", Level.values());
+
         return "filterP";
     }
     @GetMapping("/vacancy/{id}")
