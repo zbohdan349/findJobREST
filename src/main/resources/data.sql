@@ -10,9 +10,17 @@ INSERT INTO job.company(id, name,description) VALUES
 (2, 'VeryBadCompany','We are bad boys');
 COMMIT;
 
+INSERT INTO job.user(id, name,second_name, description) VALUES
+(3, 'Bohdan','Petrov','description'),
+(4, 'Ivan','Ivanov','description');
+COMMIT;
+
 INSERT INTO job.account(id, email,linked_in,password,phone,role) VALUES
-(1, 'SoftByBodya@gmail.com','link','Password1','+3542000','COMPANY'),
-(2, 'VeryBadCompany@gmail.com','link','Password1','+3542000','COMPANY');
+(1, 'SoftByBodya@gmail.com','link','{noop}Password1','+3542000','COMPANY'),
+(2, 'VeryBadCompany@gmail.com','link','{noop}Password1','+332222','COMPANY'),
+(3, 'BodyaBest@gmail.com','link','{noop}Password1','+355845','USER'),
+(4, 'VeryBadWorker@gmail.com','link','{noop}Password1','+3556422','USER'),
+(5, 'VeryBadAdmin@gmail.com','link','{noop}Password1','+3555552','ADMIN');
 COMMIT;
 
 INSERT INTO job.category_accounts(accounts_id,category_id) VALUES
