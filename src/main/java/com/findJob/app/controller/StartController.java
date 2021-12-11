@@ -84,4 +84,10 @@ public class StartController {
         vacancyServ.save(vacancy);
         return "redirect:/find";
     }
+    @GetMapping("/Registration")
+    public  String registration(Model model){
+
+        return "RegForm1";
+    }
+
 }
