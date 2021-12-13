@@ -1,15 +1,13 @@
 package com.findJob.app.controller;
 
-import com.findJob.app.model.Category;
-import com.findJob.app.model.Company;
-import com.findJob.app.model.Level;
-import com.findJob.app.model.Vacancy;
+import com.findJob.app.model.*;
 import com.findJob.app.model.dto.FilterReq;
+import com.findJob.app.model.dto.RegDto;
 import com.findJob.app.model.dto.VacDto;
-import com.findJob.app.service.CategoryServ;
-import com.findJob.app.service.VacancyServ;
+import com.findJob.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +16,12 @@ import java.util.*;
 
 @Controller
 public class StartController {
+
+    @Autowired
+    private CompanyServ companyServ;
+
+    @Autowired
+    private UserServ userServ;
 
     @Autowired
     private VacancyServ vacancyServ;
@@ -84,10 +88,46 @@ public class StartController {
         vacancyServ.save(vacancy);
         return "redirect:/find";
     }
-    @GetMapping("/Registration")
+    @GetMapping("/registration")
     public  String registration(Model model){
 
+
+
         return "RegForm1";
+    }
+    @GetMapping("/registration/user")
+    public  String registrationUser(Model model){
+
+        model.addAttribute("registration",new RegDto());
+
+        return "RegForm2";
+    }
+    @PostMapping("/registration/user")
+    public  String registrationUserPost(@ModelAttribute RegDto dto,Model model){
+
+       model.addAttribute("registration",dto);
+
+       userServ.save(dto);
+
+       return "redirect:/login";
+    }
+
+    @GetMapping("/registration/company")
+    public  String registrationCompany(Model model){
+
+        model.addAttribute("registration",new RegDto());
+
+        return "RegForm3";
+    }
+
+    @PostMapping("/registration/company")
+    public  String registrationCompanyPost(@ModelAttribute RegDto dto,Model model){
+
+        model.addAttribute("registration",dto);
+
+        companyServ.save(dto);
+
+        return "redirect:/login";
     }
 
 }

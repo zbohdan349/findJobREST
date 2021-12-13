@@ -17,6 +17,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "id")
+    @MapsId
     private Account account;
 
 

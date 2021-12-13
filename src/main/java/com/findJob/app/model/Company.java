@@ -16,6 +16,7 @@ public class Company {
 
     @OneToOne
     @JoinColumn(name = "id")
+    @MapsId
     private Account account;
 
     @OneToMany(mappedBy="company")
