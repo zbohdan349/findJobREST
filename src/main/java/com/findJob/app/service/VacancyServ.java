@@ -41,16 +41,12 @@ public class VacancyServ {
 
         return list;
     }
-
     public Vacancy getCategoryById(Integer id){
         return vacancyRepo.getById(id);
     }
 
-
-
     public void save(Vacancy vacancy){
         vacancyRepo.save(vacancy);
     }
-
 
 }
