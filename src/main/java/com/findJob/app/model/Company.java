@@ -9,11 +9,8 @@ import java.util.Set;
 public class Company {
     @Id
     private int id;
-
     private String name;
-
     private String description;
-
     @OneToOne
     @JoinColumn(name = "id")
     @MapsId
@@ -24,7 +21,6 @@ public class Company {
 
     public Company() {
     }
-
 
     public int getId() {
         return id;

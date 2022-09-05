@@ -1,8 +1,8 @@
 package com.findJob.app.service;
 
 import com.findJob.app.model.Account;
+import com.findJob.app.model.Client;
 import com.findJob.app.model.Role;
-import com.findJob.app.model.User;
 import com.findJob.app.model.dto.RegDto;
 import com.findJob.app.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +28,16 @@ public class UserServ {
 
         account.setLinkedIn(dto.getLinkedIn());
 
-        User user = new User();
+        Client client = new Client();
 
-        user.setAccount(account);
+        client.setAccount(account);
 
-        user.setName(dto.getName());
+        client.setName(dto.getName());
 
-        user.setSecondName(dto.getSecondName());
+        client.setSecondName(dto.getSecondName());
 
-        user.setDescription(dto.getDescription());
+        client.setDescription(dto.getDescription());
 
-        userRepo.saveAndFlush(user);
+        userRepo.save(client);
     }
 }

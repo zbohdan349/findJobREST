@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Repository
 public interface VacancyRepo extends JpaRepository<Vacancy,Integer> {
-    //v.name IN :names
     @Query(value = "SELECT v FROM Vacancy v WHERE v.Salary >=:salary and v.level IN :levels")
     public List<Vacancy> getByFilter(
             @Param("salary")Integer salary,

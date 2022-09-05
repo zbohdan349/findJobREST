@@ -3,7 +3,6 @@ package com.findJob.app.service;
 import com.findJob.app.model.Account;
 import com.findJob.app.model.Company;
 import com.findJob.app.model.Role;
-import com.findJob.app.model.User;
 import com.findJob.app.model.dto.RegDto;
 import com.findJob.app.repo.CompanyRepo;
 import org.springframework.beans.factory.annotation.Autowired;

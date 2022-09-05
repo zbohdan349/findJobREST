@@ -91,18 +91,16 @@ public class StartController {
     @GetMapping("/registration")
     public  String registration(Model model){
 
-
-
         return "RegForm1";
     }
-    @GetMapping("/registration/user")
+    @GetMapping("/registration/client")
     public  String registrationUser(Model model){
 
         model.addAttribute("registration",new RegDto());
 
         return "RegForm2";
     }
-    @PostMapping("/registration/user")
+    @PostMapping("/registration/client")
     public  String registrationUserPost(@ModelAttribute RegDto dto,Model model){
 
        model.addAttribute("registration",dto);
@@ -129,5 +127,4 @@ public class StartController {
 
         return "redirect:/login";
     }
-
 }

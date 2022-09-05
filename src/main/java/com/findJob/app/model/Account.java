@@ -33,7 +33,7 @@ public class Account implements UserDetails {
     private Company company;
 
     @OneToOne(mappedBy = "account")
-    private User user;
+    private Client client;
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -2,10 +2,9 @@ package com.findJob.app.model;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-public class User {
+public class Client {
     @Id
     private int id;
 
@@ -21,7 +20,7 @@ public class User {
     private Account account;
 
 
-    public User() {
+    public Client() {
     }
 
     public int getId() {
@@ -68,8 +67,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(secondName, user.secondName) && Objects.equals(description, user.description) && Objects.equals(account, user.account);
+        Client client = (Client) o;
+        return id == client.id && Objects.equals(name, client.name) && Objects.equals(secondName, client.secondName) && Objects.equals(description, client.description) && Objects.equals(account, client.account);
     }
 
     @Override
