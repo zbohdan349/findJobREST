@@ -18,8 +18,6 @@ public class UserServ {
 
         Account account =new Account();
 
-        account.setEmail(dto.getEmail());
-
         account.setRole(Role.USER);
 
         account.setPassword("{noop}"+dto.getPassword());
