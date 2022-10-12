@@ -4,18 +4,33 @@ import com.findJob.app.model.*;
 import com.findJob.app.model.dto.FilterReq;
 import com.findJob.app.model.dto.RegDto;
 import com.findJob.app.model.dto.VacDto;
+import com.findJob.app.security.AuthRequest;
+import com.findJob.app.security.JwtTokenUtil;
 import com.findJob.app.service.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@Controller
+@RestController
 public class StartController {
+
+    @Autowired
+    private AuthenticationManager authManager;
+    @Autowired
+    private JwtTokenUtil jwtUtil;
 
     @Autowired
     private CompanyServ companyServ;
@@ -30,20 +45,46 @@ public class StartController {
     private CategoryServ categoryServ;
 
     @GetMapping("/")
-    public  String start(Model model){
+    public  List<Vacancy> start(){
 
-        model.addAttribute("vacancies",vacancyServ.getRandom());
-        return "index";
+        return vacancyServ.getRandom();
     }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+        try {
+            Authentication authentication = authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(), request.getPassword())
+            );
+
+            Account account = (Account) authentication.getPrincipal();
+            String accessToken = jwtUtil.generateAccessToken(account);
+            HashMap<String,String> response = new HashMap<>();
+            response.put("email", account.getEmail());
+            response.put("accessToken",accessToken);
+
+
+            return ResponseEntity.ok().body(response);
+
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+
     @GetMapping("/find")
-    public  String find(Model model){
-        model.addAttribute("filterReq", new FilterReq());
-        model.addAttribute("categories",categoryServ.getAllCategories());
-        model.addAttribute("vacancies",vacancyServ.getAll());
-        model.addAttribute("levels", Level.values());
-        return "filterP";
+    @Operation(summary = "Delete user", description = "Delete user")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public  Map<String,Object> find(){
+
+        Map<String,Object> hashMap = new HashMap<>();
+        hashMap.put("categories",categoryServ.getAllCategories());
+        hashMap.put("vacancies",vacancyServ.getAll());
+        hashMap.put("levels", Level.values());
+        return hashMap;
     }
-    @GetMapping("/find1")
+    /*@GetMapping("/find1")
     public  String findWithParam(Model model,
                                  @DefaultValue("0")@RequestParam(required = false) Integer salary,
                                  @RequestParam(required = false) List<Level> levels,
@@ -126,5 +167,5 @@ public class StartController {
         companyServ.save(dto);
 
         return "redirect:/login";
-    }
+    }*/
 }

@@ -1,5 +1,7 @@
 package com.findJob.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -13,9 +15,10 @@ public class Category {
 
     private String name;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Account>accounts;
-
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Vacancy>vacancies;
 

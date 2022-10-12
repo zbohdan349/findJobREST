@@ -1,5 +1,7 @@
 package com.findJob.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -25,9 +27,11 @@ public class Vacancy {
 
     private LocalDateTime time;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category>categories;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;

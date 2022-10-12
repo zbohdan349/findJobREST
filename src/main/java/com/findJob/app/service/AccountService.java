@@ -23,7 +23,7 @@ public class AccountService implements UserDetailsService {
         Optional<Account>account = accountRepo.findByEmail(s);
         if(account.isPresent())
             return account.get();
-        else throw new NullPointerException("Такого користувача немає");
+        else throw new UsernameNotFoundException("Такого користувача немає");
     }
 
     public void save(RegDto dto){
