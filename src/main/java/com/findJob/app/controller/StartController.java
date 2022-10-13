@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,12 +23,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
 @RestController
 public class StartController {
 
+    @Autowired
+    private FilesStorageService storageService;
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
@@ -74,7 +79,6 @@ public class StartController {
 
 
     @GetMapping("/find")
-    @Operation(summary = "Delete user", description = "Delete user")
     @SecurityRequirement(name = "Bearer Authentication")
     public  Map<String,Object> find(){
 
@@ -83,6 +87,29 @@ public class StartController {
         hashMap.put("vacancies",vacancyServ.getAll());
         hashMap.put("levels", Level.values());
         return hashMap;
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            storageService.save(file);
+
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body((message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body((message));
+        }
+    }
+
+
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        Resource file = storageService.load(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
     /*@GetMapping("/find1")
     public  String findWithParam(Model model,
