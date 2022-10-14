@@ -19,7 +19,13 @@ import java.util.stream.Stream;
 @Service
 public class FilesStorageService {
 
-    private final String UPLOAD_DIR = "uploads";
+    private final String UPLOAD_DIR = "uploads/";
+
+    private final String DEFAULT_IMG_DIR = UPLOAD_DIR +"defaultAvatar/";
+    private final String DEFAULT_IMG= "avatar.png";
+
+    private final String IMG_EXTENSION= ".png";
+
     private final Path root = Paths.get(UPLOAD_DIR);
 
     private void createFolder(Path folder) {
@@ -38,31 +44,43 @@ public class FilesStorageService {
     }
 
 
-    public boolean save(MultipartFile file) {
+    public boolean save(MultipartFile file) throws IOException {
         Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        checkExtension(file);
         try {
-            Path path = Paths.get(UPLOAD_DIR +"/"+account.getId());
+            String url = UPLOAD_DIR + account.getId();
+            Path path = Paths.get(url);
             createFolder(path);
+
+            Files.deleteIfExists(Paths.get(url + "/" + account.getId() + IMG_EXTENSION));
+
             Files.copy(file.getInputStream(),
                     path.resolve(account.getId()
-                            + file.getOriginalFilename()
-                                .substring(file.getOriginalFilename().lastIndexOf('.'))));
+                            + IMG_EXTENSION));
             return true;
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
+    private void checkExtension(MultipartFile file) throws IOException {
+        String extension = file.getOriginalFilename()
+                .substring(file.getOriginalFilename().lastIndexOf('.'));
+
+        if (!IMG_EXTENSION.equals(extension)) {
+            throw new IOException("Only png");
+        }
+    }
 
     public Resource load(Integer id) {
         try {
-            Path file = Paths.get(UPLOAD_DIR+"/"+id).resolve(id+".png");
+            Path file = Paths.get(UPLOAD_DIR+id).resolve(id+".png");
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                 file = Paths.get(UPLOAD_DIR+"/"+1).resolve(1+".txt");
-                return resource = new UrlResource(file.toUri());
+                file = Paths.get(DEFAULT_IMG_DIR).resolve(DEFAULT_IMG);
+                return new UrlResource(file.toUri());
                 //throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
