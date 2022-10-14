@@ -12,9 +12,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -32,10 +35,9 @@ public class StartController {
 
     @Autowired
     private FilesStorageService storageService;
+
     @Autowired
-    private AuthenticationManager authManager;
-    @Autowired
-    private JwtTokenUtil jwtUtil;
+    private AuthenticationService authenticationService;
 
     @Autowired
     private CompanyServ companyServ;
@@ -51,30 +53,12 @@ public class StartController {
 
     @GetMapping("/")
     public  List<Vacancy> start(){
-
         return vacancyServ.getRandom();
     }
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
-        try {
-            Authentication authentication = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(), request.getPassword())
-            );
-
-            Account account = (Account) authentication.getPrincipal();
-            String accessToken = jwtUtil.generateAccessToken(account);
-            HashMap<String,String> response = new HashMap<>();
-            response.put("email", account.getEmail());
-            response.put("accessToken",accessToken);
-
-
-            return ResponseEntity.ok().body(response);
-
-        } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        return ResponseEntity.ok().body(authenticationService.login(request));
     }
 
 
@@ -90,6 +74,7 @@ public class StartController {
     }
 
     @PostMapping("/upload")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
@@ -104,12 +89,18 @@ public class StartController {
     }
 
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/files/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = storageService.load(filename);
+    public ResponseEntity<InputStreamResource> getImg(@PathVariable Integer id) throws IOException {
+        Resource file = storageService.load(id);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\""
+                                + file.getFilename()
+                                + "\"")
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new InputStreamResource(file.getInputStream()));
     }
     /*@GetMapping("/find1")
     public  String findWithParam(Model model,
