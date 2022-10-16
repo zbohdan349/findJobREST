@@ -52,7 +52,7 @@ public class StartController {
     private CategoryServ categoryServ;
 
     @GetMapping("/")
-    public  List<Vacancy> start(){
+    public  List<VacDto> start(){
         return vacancyServ.getRandom();
     }
 

@@ -4,21 +4,31 @@ import com.findJob.app.model.Category;
 import com.findJob.app.model.Level;
 
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class VacDto {
-    private Level level;
-
+    private Integer id;
     private String name;
-
-    private String big;
-
-    private String small;
-
+    private String smallDescription;
     private int salary;
 
+    private Map<String,Object> company;
+
     private Set<Category> categories;
+
+    public VacDto() {
+        company =new HashMap<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -28,20 +38,12 @@ public class VacDto {
         this.name = name;
     }
 
-    public String getBig() {
-        return big;
+    public String getSmallDescription() {
+        return smallDescription;
     }
 
-    public void setBig(String big) {
-        this.big = big;
-    }
-
-    public String getSmall() {
-        return small;
-    }
-
-    public void setSmall(String small) {
-        this.small = small;
+    public void setSmallDescription(String smallDescription) {
+        this.smallDescription = smallDescription;
     }
 
     public int getSalary() {
@@ -60,13 +62,10 @@ public class VacDto {
         this.categories = categories;
     }
 
-    public Level getLevel() {
-        return level;
+    public Map<String, Object> getCompany() {
+        return company;
     }
-
-    public void setLevel(Level level) {
-        this.level = level;
+    public void setCompany(Map<String, Object> company) {
+        this.company = company;
     }
-
-
 }

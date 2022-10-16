@@ -16,7 +16,7 @@ public class Company {
     @MapsId
     private Account account;
 
-    @OneToMany(mappedBy="company")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="company")
     private Set<Vacancy>vacancies;
 
     public Company() {
