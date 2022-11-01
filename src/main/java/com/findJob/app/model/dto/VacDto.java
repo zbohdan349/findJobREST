@@ -4,6 +4,7 @@ import com.findJob.app.model.Category;
 import com.findJob.app.model.Level;
 
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,7 @@ public class VacDto {
     private Integer id;
     private String name;
     private String smallDescription;
-    private int salary;
+    private BigDecimal salary;
 
     private Map<String,Object> company;
 
@@ -46,14 +47,6 @@ public class VacDto {
         this.smallDescription = smallDescription;
     }
 
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
     public Set<Category> getCategories() {
         return categories;
     }
@@ -67,5 +60,13 @@ public class VacDto {
     }
     public void setCompany(Map<String, Object> company) {
         this.company = company;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
     }
 }

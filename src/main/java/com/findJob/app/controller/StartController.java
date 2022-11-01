@@ -1,16 +1,11 @@
 package com.findJob.app.controller;
 
 import com.findJob.app.model.*;
-import com.findJob.app.model.dto.FilterReq;
-import com.findJob.app.model.dto.RegDto;
 import com.findJob.app.model.dto.VacDto;
 import com.findJob.app.security.AuthRequest;
-import com.findJob.app.security.JwtTokenUtil;
 import com.findJob.app.service.*;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -18,12 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RestController
+@CrossOrigin
 public class StartController {
 
     @Autowired
@@ -67,9 +57,10 @@ public class StartController {
     public  Map<String,Object> find(){
 
         Map<String,Object> hashMap = new HashMap<>();
-        hashMap.put("categories",categoryServ.getAllCategories());
-        hashMap.put("vacancies",vacancyServ.getAll());
         hashMap.put("levels", Level.values());
+        hashMap.put("categories",categoryServ.getAllCategories());
+        hashMap.put("minSalary",vacancyServ.getMinSalary());
+        hashMap.put("maxSalary",vacancyServ.getMaxSalary());
         return hashMap;
     }
 

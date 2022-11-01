@@ -8,17 +8,24 @@ import com.findJob.app.repo.VacancyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
 public class VacancyServ {
+
+    private final String SERVER_URL = "http://localhost:8080/";
     @Autowired
     private VacancyRepo vacancyRepo;
+
+    public BigDecimal getMinSalary(){
+        return vacancyRepo.findFirstByOrderBySalaryAsc().getSalary();
+    }
+    public BigDecimal getMaxSalary(){
+        return vacancyRepo.findFirstByOrderBySalaryDesc().getSalary();
+    }
 
     public List<VacDto> getRandom(){
         return vacancyRepo.findAll().subList(0,3).stream().map(this::convertToDTO).toList();
@@ -61,7 +68,7 @@ public class VacancyServ {
         dto.setCategories(vacancy.getCategories());
         dto.getCompany().put("id",vacancy.getCompany().getId());
         dto.getCompany().put("name",vacancy.getCompany().getName());
-        dto.getCompany().put("img","files/"+ vacancy.getCompany().getId());
+        dto.getCompany().put("img",SERVER_URL+"files/"+ vacancy.getCompany().getId());
 
         return dto;
     }

@@ -3,6 +3,7 @@ package com.findJob.app.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class Vacancy {
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    private int Salary;
+    private BigDecimal salary;
 
     private LocalDateTime time;
 
@@ -67,12 +68,12 @@ public class Vacancy {
         return id;
     }
 
-    public int getSalary() {
-        return Salary;
+    public BigDecimal getSalary() {
+        return salary;
     }
 
-    public void setSalary(int salary) {
-        Salary = salary;
+    public void setSalary(BigDecimal salary) {
+        salary = salary;
     }
 
     public LocalDateTime getTime() {
