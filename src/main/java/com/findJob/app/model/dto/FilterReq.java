@@ -2,37 +2,49 @@ package com.findJob.app.model.dto;
 
 import com.findJob.app.model.Category;
 import com.findJob.app.model.Level;
+import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 public class FilterReq {
-    private Category category;
 
-    private Integer salary;
+    @Nullable
+    private List<Integer> categories;
 
-    private Set<Level> levels;
+    @Nullable
+    private BigDecimal minSalary;
 
-    public Category getCategory() {
-        return category;
+    @Nullable
+    private List<Level> levels;
+
+    @Nullable
+    public List<Integer> getCategories() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(@Nullable List<Integer> categories) {
+        this.categories = categories;
     }
 
-    public Integer getSalary() {
-        return salary;
+    @Nullable
+    public BigDecimal getMinSalary() {
+        return minSalary;
     }
 
-    public void setSalary(Integer salary) {
-        this.salary = salary;
+    public void setMinSalary(@Nullable BigDecimal minSalary) {
+        this.minSalary = minSalary;
     }
 
-    public Set<Level> getLevels() {
+    @Nullable
+    public List<Level> getLevels() {
         return levels;
     }
 
-    public void setLevel(Set<Level> levels) {
+    public void setLevels(@Nullable List<Level> levels) {
         this.levels = levels;
     }
+
+
 }

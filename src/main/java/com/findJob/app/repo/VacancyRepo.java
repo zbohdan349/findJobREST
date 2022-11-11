@@ -9,15 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface VacancyRepo extends JpaRepository<Vacancy,Integer> {
-    @Query(value = "SELECT v FROM Vacancy v WHERE v.salary >=:salary and v.level IN :levels")
-    public List<Vacancy> getByFilter(
-            @Param("salary")Integer salary,
-            @Param("levels")List<Level> levels
+    public Set<Vacancy>findByCategoriesInAndLevelInAndSalaryGreaterThan(
+            @Param("categories")List<Category>categories,
+            @Param("levels")List<Level> levels,
+            @Param("Salary")BigDecimal Salary
     );
 
     public Vacancy findFirstByOrderBySalaryAsc();

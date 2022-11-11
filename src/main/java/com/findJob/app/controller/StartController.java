@@ -1,12 +1,14 @@
 package com.findJob.app.controller;
 
 import com.findJob.app.model.*;
+import com.findJob.app.model.dto.FilterReq;
 import com.findJob.app.model.dto.VacDto;
 import com.findJob.app.security.AuthRequest;
 import com.findJob.app.service.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
@@ -93,27 +96,15 @@ public class StartController {
                 .contentType(MediaType.IMAGE_PNG)
                 .body(new InputStreamResource(file.getInputStream()));
     }
-    /*@GetMapping("/find1")
-    public  String findWithParam(Model model,
-                                 @DefaultValue("0")@RequestParam(required = false) Integer salary,
-                                 @RequestParam(required = false) List<Level> levels,
-                                 @RequestParam(required = false) Category category
-                                 ){
-        model.addAttribute("filterReq", new FilterReq());
-
-        model.addAttribute("categories",categoryServ.getAllCategories());
-
-        model.addAttribute("vacancies",vacancyServ.getFilter(salary,levels,category));
-
-        model.addAttribute("levels", Level.values());
-
-        return "filterP";
+    @PostMapping("/vacancies")
+    public  ResponseEntity<List<VacDto>> findWithParam(@RequestBody FilterReq req){
+        return ResponseEntity.ok(vacancyServ.getFilter(req.getMinSalary(),req.getLevels(),req.getCategories()));
     }
-    @GetMapping("/vacancy/{id}")
-    public  String vacancy(Model model,@PathVariable Integer id){
-        model.addAttribute("vacancy",vacancyServ.getCategoryById(id));
-        return "vacancy";
+    @GetMapping("/vacancies/{id}")
+    public  VacDto vacancy(@PathVariable Integer id){
+        return vacancyServ.getCategoryById(id);
     }
+    /*
     @GetMapping("/addVacancy")
     public  String addVacancyGet(Model model){
         model.addAttribute("levels", Level.values());

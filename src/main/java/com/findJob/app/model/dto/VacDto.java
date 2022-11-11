@@ -13,6 +13,8 @@ public class VacDto {
     private Integer id;
     private String name;
     private String smallDescription;
+
+    private String BigDescription;
     private BigDecimal salary;
 
     private Map<String,Object> company;
@@ -68,5 +70,13 @@ public class VacDto {
 
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public String getBigDescription() {
+        return BigDescription;
+    }
+
+    public void setBigDescription(String bigDescription) {
+        BigDescription = bigDescription;
     }
 }

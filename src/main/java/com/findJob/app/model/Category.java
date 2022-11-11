@@ -11,7 +11,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -25,7 +25,7 @@ public class Category {
     public Category() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -68,5 +68,13 @@ public class Category {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, accounts, vacancies);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
