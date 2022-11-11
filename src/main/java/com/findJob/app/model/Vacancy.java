@@ -15,6 +15,7 @@ public class Vacancy {
 
     private String smallDescription;
 
+    @Lob
     private String bigDescription;
 
     private String name;
@@ -29,13 +30,16 @@ public class Vacancy {
     private LocalDateTime time;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "vacancies")
     private Set<Category>categories;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "client")
+    private Set<Сooperation> сooperations;
 
     public Vacancy() {
     }
@@ -114,5 +118,9 @@ public class Vacancy {
 
     public void setBigDescription(String bigDescription) {
         this.bigDescription = bigDescription;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

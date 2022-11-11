@@ -1,7 +1,7 @@
 package com.findJob.app.model.dto;
 
 
-import com.findJob.app.model.Role;
+import com.findJob.app.model.enums.Role;
 
 import java.time.LocalDateTime;
 

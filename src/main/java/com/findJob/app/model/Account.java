@@ -1,5 +1,6 @@
 package com.findJob.app.model;
 
+import com.findJob.app.model.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +27,7 @@ public class Account implements UserDetails {
 
     private LocalDateTime localDateTime;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy ="accounts")
     private Set<Category>categories;
 
     @OneToOne(mappedBy = "account")

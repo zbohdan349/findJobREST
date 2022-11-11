@@ -1,7 +1,10 @@
 package com.findJob.app.model;
 
+import com.findJob.app.model.enums.CooperationStatus;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Client {
@@ -19,6 +22,8 @@ public class Client {
     @MapsId
     private Account account;
 
+    @OneToMany(mappedBy="vacancy")
+    private Set<Сooperation> сooperations;
 
     public Client() {
     }
@@ -61,6 +66,14 @@ public class Client {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Сooperation> getСooperations() {
+        return сooperations;
+    }
+
+    public void setСooperations(Set<Сooperation> сooperations) {
+        this.сooperations = сooperations;
     }
 
     @Override
