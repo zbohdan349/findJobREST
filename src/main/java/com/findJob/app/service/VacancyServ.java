@@ -1,20 +1,20 @@
 package com.findJob.app.service;
 
-import com.findJob.app.model.Category;
-import com.findJob.app.model.Level;
-import com.findJob.app.model.Vacancy;
+import com.findJob.app.model.*;
 import com.findJob.app.model.dto.VacDto;
 import com.findJob.app.repo.CategoryRepo;
+
+import com.findJob.app.repo.ClientRepo;
 import com.findJob.app.repo.VacancyRepo;
+import com.findJob.app.repo.TeamworkRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 
 @Service
@@ -22,10 +22,17 @@ public class VacancyServ {
 
     private final String SERVER_URL = "http://localhost:8080/";
     @Autowired
+    private AuthenticationService authenticationService;
+    @Autowired
     private VacancyRepo vacancyRepo;
-
     @Autowired
     private CategoryRepo categoryRepo;
+    @Autowired
+    private ClientRepo clientRepo;
+    @Autowired
+    private TeamworkRepo teamworkRepo;
+
+
 
     public BigDecimal getMinSalary(){
         return vacancyRepo.findFirstByOrderBySalaryAsc().getSalary();
@@ -89,6 +96,26 @@ public class VacancyServ {
         vacancyRepo.save(vacancy);
     }
 
+    public List<VacDto> getVacanciesByCompany(){
+
+        Account account = authenticationService.getCurrentAccount();
+        List<Vacancy> vacancies = new ArrayList<>();
+        List<Teamwork> list;
+        switch (account.getRole()){
+            case COMPANY:
+                list =teamworkRepo.findByCompany(account.getId());
+                vacancies.addAll(list.stream().map(Teamwork::getVacancy).toList());
+                break;
+
+            case USER:
+                list =teamworkRepo.findByClient(account.getId());
+                vacancies.addAll(list.stream().map(Teamwork::getVacancy).toList());
+                break;
+        }
+
+        return vacancies.stream().map(this::convertToDTO).toList();
+    }
+
     private VacDto convertToDTO(Vacancy vacancy){
         VacDto dto = new VacDto();
 
@@ -103,5 +130,4 @@ public class VacancyServ {
 
         return dto;
     }
-
 }

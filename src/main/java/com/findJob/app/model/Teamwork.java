@@ -5,7 +5,7 @@ import com.findJob.app.model.enums.CooperationStatus;
 import javax.persistence.*;
 
 @Entity
-public class Сooperation {
+public class Teamwork {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,5 +52,15 @@ public class Сooperation {
 
     public void setStatus(CooperationStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Сooperation{" +
+                "id=" + id +
+                ", client=" + client +
+                ", vacancy=" + vacancy +
+                ", status=" + status +
+                '}';
     }
 }

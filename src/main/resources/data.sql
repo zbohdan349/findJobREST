@@ -47,7 +47,7 @@ INSERT INTO category_vacancy(category_id,vacancy_id) VALUES
 (4,5);
 COMMIT;
 
-INSERT INTO сooperation(id, status, client_id, vacancy_id) VALUES
+INSERT INTO teamwork(id, status, client_id, vacancy_id) VALUES
 (1, "STARTED",3,1),
 (2,"REJECTED",3,2),
 (3,"APPROVED",3,3),

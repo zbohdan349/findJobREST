@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,8 +39,9 @@ public class Vacancy {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "client")
-    private Set<Сooperation> сooperations;
+
+    @OneToMany(mappedBy = "client")
+    private List<Teamwork> teamworks;
 
     public Vacancy() {
     }
@@ -122,5 +124,13 @@ public class Vacancy {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Teamwork> getСooperations() {
+        return teamworks;
+    }
+
+    public void setСooperations(List<Teamwork> teamworks) {
+        this.teamworks = teamworks;
     }
 }

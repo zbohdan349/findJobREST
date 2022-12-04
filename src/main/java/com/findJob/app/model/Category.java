@@ -20,14 +20,14 @@ public class Category {
     @JoinTable(
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "account_id"))
-    private Set<Account>accounts;
+    private Set<Account> accounts;
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "category_vacancy",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
-    private Set<Vacancy>vacancies;
+    private Set<Vacancy> vacancies;
 
     public Category() {
     }

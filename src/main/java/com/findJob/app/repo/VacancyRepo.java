@@ -1,8 +1,6 @@
 package com.findJob.app.repo;
 
-import com.findJob.app.model.Category;
-import com.findJob.app.model.Level;
-import com.findJob.app.model.Vacancy;
+import com.findJob.app.model.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +22,9 @@ public interface VacancyRepo extends JpaRepository<Vacancy,Integer> {
     public Vacancy findFirstByOrderBySalaryAsc();
 
     public Vacancy findFirstByOrderBySalaryDesc();
+
+    @Query("SELECT v FROM Vacancy v WHERE v.company.id = :id")
+    public List<Vacancy> findByCompany(@Param("id") Integer id);
 
 
 }

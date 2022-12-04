@@ -101,8 +101,14 @@ public class StartController {
         return ResponseEntity.ok(vacancyServ.getFilter(req.getMinSalary(),req.getLevels(),req.getCategories()));
     }
     @GetMapping("/vacancies/{id}")
-    public  VacDto vacancy(@PathVariable Integer id){
+    public  VacDto getVacancyById(@PathVariable Integer id){
         return vacancyServ.getCategoryById(id);
+    }
+
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping("/vacancies/home")
+    public List<VacDto> getVacanciesByCompany(){
+        return vacancyServ.getVacanciesByCompany() ;
     }
     /*
     @GetMapping("/addVacancy")
