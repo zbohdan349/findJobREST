@@ -39,6 +39,7 @@ public class AuthenticationService {
             HashMap<String,String> response = new HashMap<>();
             response.put("email", account.getEmail());
             response.put("accessToken",accessToken);
+            response.put("role",account.getRole().name());
 
         return response;
     }
