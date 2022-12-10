@@ -46,6 +46,9 @@ public class Vacancy {
     public Vacancy() {
     }
 
+    public Vacancy(Integer vacancyId) {
+    }
+
     public String getName() {
         return name;
     }

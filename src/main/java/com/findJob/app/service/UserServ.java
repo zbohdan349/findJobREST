@@ -4,7 +4,7 @@ import com.findJob.app.model.Account;
 import com.findJob.app.model.Client;
 import com.findJob.app.model.enums.Role;
 import com.findJob.app.model.dto.RegDto;
-import com.findJob.app.repo.UserRepo;
+import com.findJob.app.repo.ClientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class UserServ {
 
     @Autowired
-    private UserRepo userRepo;
+    private ClientRepo userRepo;
 
     public void save(RegDto dto){
 

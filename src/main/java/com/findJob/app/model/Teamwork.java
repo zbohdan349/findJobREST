@@ -22,6 +22,15 @@ public class Teamwork {
     @Enumerated(EnumType.STRING)
     private CooperationStatus status;
 
+    public Teamwork() {
+    }
+
+    public Teamwork(Client client, Vacancy vacancy) {
+        this.client = client;
+        this.vacancy = vacancy;
+        this.status = CooperationStatus.STARTED;
+    }
+
     public Integer getId() {
         return id;
     }

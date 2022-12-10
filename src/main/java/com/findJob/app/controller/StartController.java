@@ -1,10 +1,7 @@
 package com.findJob.app.controller;
 
 import com.findJob.app.model.*;
-import com.findJob.app.model.dto.AddCategoryDto;
-import com.findJob.app.model.dto.AddVacDto;
-import com.findJob.app.model.dto.FilterReq;
-import com.findJob.app.model.dto.VacDto;
+import com.findJob.app.model.dto.*;
 import com.findJob.app.security.AuthRequest;
 import com.findJob.app.service.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -45,6 +42,9 @@ public class StartController {
 
     @Autowired
     private CategoryServ categoryServ;
+
+    @Autowired
+    private TeamWorkService teamWorkService;
 
     @GetMapping("/")
     public  List<VacDto> start(){
@@ -122,6 +122,12 @@ public class StartController {
     @PostMapping("/categories")
     public ResponseEntity<?> addCategory(@RequestBody AddCategoryDto category){
         return ResponseEntity.ok(categoryServ.addCategory(category.getName()));
+    }
+
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("/teamwork")
+    public ResponseEntity<?> addTeamWork(@RequestBody AddTeamworkReq teamworkReq){
+        return ResponseEntity.ok(teamWorkService.addTeamWork(teamworkReq.getId()));
     }
 
 }
