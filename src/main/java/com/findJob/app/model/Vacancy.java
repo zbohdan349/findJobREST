@@ -35,7 +35,7 @@ public class Vacancy {
     private Set<Category>categories;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -79,7 +79,7 @@ public class Vacancy {
     }
 
     public void setSalary(BigDecimal salary) {
-        salary = salary;
+        this.salary = salary;
     }
 
     public LocalDateTime getTime() {

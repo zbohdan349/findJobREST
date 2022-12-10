@@ -22,7 +22,7 @@ public class Category {
             inverseJoinColumns = @JoinColumn(name = "account_id"))
     private Set<Account> accounts;
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "category_vacancy",
             joinColumns = @JoinColumn(name = "category_id"),
@@ -30,6 +30,10 @@ public class Category {
     private Set<Vacancy> vacancies;
 
     public Category() {
+    }
+
+    public Category(Integer id) {
+        this.id = id;
     }
 
     public Integer getId() {

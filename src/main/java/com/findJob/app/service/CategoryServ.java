@@ -16,5 +16,14 @@ public class CategoryServ {
         return categoryRepo.findAll();
     }
 
+    public boolean addCategory(String name){
+
+
+        Category category = new Category();
+        category.setName(name);
+        categoryRepo.save(category);
+        return true;
+    }
+
 
 }

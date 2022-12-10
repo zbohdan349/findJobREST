@@ -1,6 +1,8 @@
 package com.findJob.app.controller;
 
 import com.findJob.app.model.*;
+import com.findJob.app.model.dto.AddCategoryDto;
+import com.findJob.app.model.dto.AddVacDto;
 import com.findJob.app.model.dto.FilterReq;
 import com.findJob.app.model.dto.VacDto;
 import com.findJob.app.security.AuthRequest;
@@ -100,6 +102,11 @@ public class StartController {
     public  ResponseEntity<List<VacDto>> findWithParam(@RequestBody FilterReq req){
         return ResponseEntity.ok(vacancyServ.getFilter(req.getMinSalary(),req.getLevels(),req.getCategories()));
     }
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("/addVacancy")
+    public  ResponseEntity<?> addVacancy(@RequestBody AddVacDto vacDto){
+        return ResponseEntity.ok(vacancyServ.addVacancy(vacDto));
+    }
     @GetMapping("/vacancies/{id}")
     public  VacDto getVacancyById(@PathVariable Integer id){
         return vacancyServ.getCategoryById(id);
@@ -110,68 +117,11 @@ public class StartController {
     public List<VacDto> getVacanciesByCompany(){
         return vacancyServ.getVacanciesByCompany() ;
     }
-    /*
-    @GetMapping("/addVacancy")
-    public  String addVacancyGet(Model model){
-        model.addAttribute("levels", Level.values());
-        model.addAttribute("vacDto",new VacDto());
-        model.addAttribute("categories",categoryServ.getAllCategories());
-        return "addVacancy";
-    }
-    @PostMapping("/addVacancy")
-    public  String addVacancy(@ModelAttribute VacDto vacDto, Model model){
-        Vacancy vacancy = new Vacancy();
 
-        vacancy.setName(vacDto.getName());
-        vacancy.setBigDescription(vacDto.getBig());
-        vacancy.setSalary(vacDto.getSalary());
-        vacancy.setSmallDescription(vacDto.getSmall());
-        vacancy.setLevel(vacDto.getLevel());
-        Company company = new Company();
-        company.setId(1);
-        vacancy.setCategories(vacDto.getCategories());
-        vacancy.setCompany(company);
-
-        vacancyServ.save(vacancy);
-        return "redirect:/find";
-    }
-    @GetMapping("/registration")
-    public  String registration(Model model){
-
-        return "RegForm1";
-    }
-    @GetMapping("/registration/client")
-    public  String registrationUser(Model model){
-
-        model.addAttribute("registration",new RegDto());
-
-        return "RegForm2";
-    }
-    @PostMapping("/registration/client")
-    public  String registrationUserPost(@ModelAttribute RegDto dto,Model model){
-
-       model.addAttribute("registration",dto);
-
-       userServ.save(dto);
-
-       return "redirect:/login";
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("/categories")
+    public ResponseEntity<?> addCategory(@RequestBody AddCategoryDto category){
+        return ResponseEntity.ok(categoryServ.addCategory(category.getName()));
     }
 
-    @GetMapping("/registration/company")
-    public  String registrationCompany(Model model){
-
-        model.addAttribute("registration",new RegDto());
-
-        return "RegForm3";
-    }
-
-    @PostMapping("/registration/company")
-    public  String registrationCompanyPost(@ModelAttribute RegDto dto,Model model){
-
-        model.addAttribute("registration",dto);
-
-        companyServ.save(dto);
-
-        return "redirect:/login";
-    }*/
 }

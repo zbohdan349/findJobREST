@@ -1,20 +1,19 @@
 package com.findJob.app.service;
 
 import com.findJob.app.model.*;
+import com.findJob.app.model.dto.AddVacDto;
 import com.findJob.app.model.dto.VacDto;
-import com.findJob.app.repo.CategoryRepo;
+import com.findJob.app.repo.*;
 
-import com.findJob.app.repo.ClientRepo;
-import com.findJob.app.repo.VacancyRepo;
-import com.findJob.app.repo.TeamworkRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,8 +29,9 @@ public class VacancyServ {
     @Autowired
     private ClientRepo clientRepo;
     @Autowired
+    private CompanyRepo companyRepo;
+    @Autowired
     private TeamworkRepo teamworkRepo;
-
 
 
     public BigDecimal getMinSalary(){
@@ -114,6 +114,39 @@ public class VacancyServ {
         }
 
         return vacancies.stream().map(this::convertToDTO).toList();
+    }
+
+    public boolean addVacancy(AddVacDto vacDto){
+        Vacancy vacancy = new Vacancy();
+
+        Company company = companyRepo.getById(authenticationService.getCurrentAccount().getId());
+
+        Set<Category>categories =
+                vacDto.getCategories()
+                        .stream().map( id-> categoryRepo.getById(id)).collect(Collectors.toSet());
+
+        vacancy.setName(vacDto.getName());
+        vacancy.setSmallDescription(vacDto.getSmallDescription());
+        vacancy.setSalary(vacDto.getSalary());
+        vacancy.setCategories(categories);
+        vacancy.setCompany(company);
+        vacancy.setLevel(vacDto.getLevel());
+
+        vacancyRepo.saveAndFlush(vacancy);
+
+        List<Category> categories1 =categories.stream().toList();
+
+        for (int i = 0; i < categories1.size(); i++) {
+            Set<Vacancy> vacancies = categories1.get(i).getVacancies();
+            vacancies.add(vacancy);
+            categories1.get(i).setVacancies(new HashSet<>(vacancies) {
+            });
+            categoryRepo.saveAndFlush(categories1.get(i));
+        }
+
+
+       //categoryRepo.saveAll(categories);
+        return true;
     }
 
     private VacDto convertToDTO(Vacancy vacancy){
