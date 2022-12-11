@@ -129,5 +129,15 @@ public class StartController {
     public ResponseEntity<?> addTeamWork(@RequestBody AddTeamworkReq teamworkReq){
         return ResponseEntity.ok(teamWorkService.addTeamWork(teamworkReq.getId()));
     }
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping("/teamwork/active")
+    public ResponseEntity<?> getActiveTeamWork(){
+        return ResponseEntity.ok(teamWorkService.getActiveTeamWork());
+    }
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PutMapping("/teamwork/{email}")
+    public ResponseEntity<?> updateTeamWork(@PathVariable String email){
+        return ResponseEntity.ok(teamWorkService.updateTeamWorkStatus(email));
+    }
 
 }
