@@ -62,13 +62,14 @@ public class WebSecurityConfig{
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.cors().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authenticationProvider(authenticationProvider());
 
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration/**").permitAll()
+                .antMatchers("/**", "/auth/login","/registration/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

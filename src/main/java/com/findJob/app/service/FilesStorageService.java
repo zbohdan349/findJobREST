@@ -1,6 +1,8 @@
 package com.findJob.app.service;
 
 import com.findJob.app.model.Account;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +20,8 @@ import java.util.stream.Stream;
 
 @Service
 public class FilesStorageService {
+    @Value("${server.name}")
+    private  String SERVER_URL;
 
     private final String UPLOAD_DIR = "uploads/";
 
@@ -27,6 +31,8 @@ public class FilesStorageService {
     private final String IMG_EXTENSION= ".png";
 
     private final Path root = Paths.get(UPLOAD_DIR);
+    @Autowired
+    private AuthenticationService authenticationService;
 
     private void createFolder(Path folder) {
         try {
@@ -69,6 +75,10 @@ public class FilesStorageService {
         if (!IMG_EXTENSION.equals(extension)) {
             throw new IOException("Only png");
         }
+    }
+
+    public String getCurrUserImgPath(){
+        return SERVER_URL+"files/"+ authenticationService.getCurrentAccount().getId();
     }
 
     public Resource load(Integer id) {

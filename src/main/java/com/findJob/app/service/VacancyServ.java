@@ -6,6 +6,7 @@ import com.findJob.app.model.dto.VacDto;
 import com.findJob.app.repo.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,8 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class VacancyServ {
-
-    private final String SERVER_URL = "http://localhost:8080/";
+    @Value("${server.name}")
+    private  String SERVER_URL;
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired

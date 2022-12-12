@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 public class StartController {
 
     @Autowired
@@ -86,9 +86,8 @@ public class StartController {
 
 
     @GetMapping("/files/{id}")
-    @SecurityRequirement(name = "Bearer Authentication")
     @ResponseBody
-    public ResponseEntity<InputStreamResource> getImg(@PathVariable Integer id) throws IOException {
+    public ResponseEntity<InputStreamResource> getFile(@PathVariable Integer id) throws IOException {
         Resource file = storageService.load(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -97,6 +96,13 @@ public class StartController {
                                 + "\"")
                 .contentType(MediaType.IMAGE_PNG)
                 .body(new InputStreamResource(file.getInputStream()));
+    }
+    @GetMapping("/files/current")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity<Map<String,String>> getCurrentUserImgPath() throws IOException {
+        Map<String,String> map =new HashMap<>();
+        map.put("imgPath",storageService.getCurrUserImgPath());
+        return ResponseEntity.ok(map);
     }
     @PostMapping("/vacancies")
     public  ResponseEntity<List<VacDto>> findWithParam(@RequestBody FilterReq req){
@@ -138,6 +144,10 @@ public class StartController {
     @PutMapping("/teamwork/{email}")
     public ResponseEntity<?> updateTeamWork(@PathVariable String email){
         return ResponseEntity.ok(teamWorkService.updateTeamWorkStatus(email));
+    }
+    @PostMapping("/registration")
+    public ResponseEntity<?> registration(@RequestBody RegistrationReq req){
+        return ResponseEntity.ok(authenticationService.registration(req));
     }
 
 }
